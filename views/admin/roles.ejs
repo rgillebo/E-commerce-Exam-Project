@@ -1,0 +1,17 @@
+<h1>View Roles</h1>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% roles.forEach(role => { %>
+    <tr>
+      <td><%= role.id %></td>
+      <td><%= role.name %></td>
+    </tr>
+    <% }) %>
+  </tbody>
+</table>

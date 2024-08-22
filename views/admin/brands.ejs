@@ -1,0 +1,136 @@
+<h1>Manage Brands</h1>
+<div class="alert-container">
+  <div
+    id="success-alert"
+    class="custom-alert success-alert"
+    style="display: none"
+  >
+    <span id="success-message"></span>
+  </div>
+  <div id="error-alert" class="custom-alert error-alert" style="display: none">
+    <span id="error-message"></span>
+  </div>
+</div>
+<div class="mb-3">
+  <button id="add-new-brand-btn" class="btn btn-primary">
+    <i class="fas fa-plus"></i> Add New Brand
+  </button>
+</div>
+<div id="brands-table-container">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% brands.forEach(brand => { %>
+      <tr>
+        <td><%= brand.name %></td>
+        <td>
+          <button
+            class="btn btn-warning btn-sm edit-button"
+            data-id="<%= brand.id %>"
+          >
+            <i class="fas fa-edit"></i> Edit
+          </button>
+          <button
+            class="btn btn-danger btn-sm delete-brand-button"
+            data-id="<%= brand.id %>"
+          >
+            <i class="fas fa-trash"></i> Delete
+          </button>
+        </td>
+      </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>
+
+<!-- Add New Brand Modal -->
+<div
+  class="modal fade"
+  id="newBrandModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="newBrandModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="newBrandModalLabel">Add New Brand</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="add-brand-form">
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input
+              type="text"
+              class="form-control"
+              id="name"
+              name="name"
+              required
+            />
+          </div>
+          <button type="submit" class="btn btn-primary">Add Brand</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Brand Modal -->
+<div
+  class="modal fade"
+  id="editBrandModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="editBrandModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editBrandModalLabel">Edit Brand</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="edit-brand-form">
+          <input type="hidden" id="edit-brand-id" name="id" />
+          <div class="form-group">
+            <label for="edit-name">Name</label>
+            <input
+              type="text"
+              class="form-control"
+              id="edit-name"
+              name="name"
+              required
+            />
+          </div>
+          <button type="submit" class="btn btn-primary">Save changes</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script id="initial-brands" type="application/json">
+  <%- JSON.stringify(brands) %>
+</script>

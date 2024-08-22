@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta name="description" content="Noroff EP1 E-commerce Admin" />
+    <title><%= title %></title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+  </head>
+  <body>
+    <% if (loggedIn) { %>
+    <header class="bg-dark text-white p-3">
+      <h1>Noroff EP1 E-commerce Admin</h1>
+      <nav>
+        <ul class="nav">
+          <li class="nav-item">
+            <a class="nav-link text-white" href="/admin/products"
+              ><i class="fas fa-box"></i> Manage Products</a
+            >
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white" href="/admin/brands"
+              ><i class="fas fa-tags"></i> Manage Brands</a
+            >
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white" href="/admin/categories"
+              ><i class="fas fa-list"></i> Manage Categories</a
+            >
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white" href="/admin/users"
+              ><i class="fas fa-users"></i> Manage Users</a
+            >
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white" href="/admin/orders"
+              ><i class="fas fa-shopping-cart"></i> Manage Orders</a
+            >
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white" href="/admin/roles"
+              ><i class="fas fa-user-tag"></i> View Roles</a
+            >
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white" href="/admin/logout"
+              ><i class="fas fa-sign-out-alt"></i> Logout</a
+            >
+          </li>
+        </ul>
+      </nav>
+    </header>
+    <% } %>
+    <main class="container mt-4"><%- include(content) %></main>
+    <footer class="bg-dark text-white text-center p-3 mt-4">
+      <p>© 2024 Noroff EP1 E-commerce</p>
+    </footer>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <% if (loggedIn) { %>
+    <script src="/javascripts/admin.js"></script>
+    <% } %>
+  </body>
+</html>

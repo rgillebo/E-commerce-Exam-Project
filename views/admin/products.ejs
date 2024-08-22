@@ -1,0 +1,286 @@
+<h1>Manage Products</h1>
+<div class="alert-container">
+  <div
+    id="success-alert"
+    class="custom-alert success-alert"
+    style="display: none"
+  >
+    <span id="success-message"></span>
+  </div>
+  <div id="error-alert" class="custom-alert error-alert" style="display: none">
+    <span id="error-message"></span>
+  </div>
+</div>
+<div class="mb-3">
+  <button id="add-new-product-btn" class="btn btn-primary">
+    <i class="fas fa-plus"></i> Add New Product
+  </button>
+</div>
+<div class="mb-3">
+  <form id="search-form" class="form-inline">
+    <input
+      type="text"
+      id="search-input"
+      class="form-control mr-2"
+      placeholder="Search Products"
+    />
+    <select id="search-filter" class="form-control mr-2">
+      <option value="name">Name</option>
+      <option value="category">Category</option>
+      <option value="brand">Brand</option>
+    </select>
+    <button type="submit" class="btn btn-primary">
+      <i class="fas fa-search"></i> Search
+    </button>
+    <button type="button" class="btn btn-secondary" id="clear-search-btn">
+      <i class="fas fa-times"></i> Clear
+    </button>
+  </form>
+</div>
+<div id="products-table-container">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Price</th>
+        <th>Quantity</th>
+        <th>Category</th>
+        <th>Brand</th>
+        <th>Is Deleted</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% products.forEach(product => { %>
+      <tr>
+        <td><%= product.name %></td>
+        <td><%= product.description %></td>
+        <td><%= product.price %></td>
+        <td><%= product.quantity %></td>
+        <td><%= product.Category.name %></td>
+        <td><%= product.Brand.name %></td>
+        <td><%= product.is_deleted ? 'Yes' : 'No' %></td>
+        <td>
+          <% if (!product.is_deleted) { %>
+          <button
+            class="btn btn-warning btn-sm edit-button"
+            data-id="<%= product.id %>"
+            data-toggle="modal"
+            data-target="#editProductModal"
+          >
+            <i class="fas fa-edit"></i> Edit
+          </button>
+          <button
+            class="btn btn-danger btn-sm delete-product-button"
+            data-id="<%= product.id %>"
+          >
+            <i class="fas fa-trash"></i> Delete
+          </button>
+          <% } %> <% if (product.is_deleted) { %>
+          <button
+            class="btn btn-success btn-sm undelete-product-button"
+            data-id="<%= product.id %>"
+          >
+            <i class="fas fa-undo"></i> Undelete
+          </button>
+          <% } %>
+        </td>
+      </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>
+
+<!-- Add New Product Modal -->
+<div
+  class="modal fade"
+  id="addProductModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="addProductModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addProductModalLabel">Add New Product</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="add-product-form">
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input
+              type="text"
+              class="form-control"
+              id="name"
+              name="name"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="description">Description</label>
+            <textarea
+              class="form-control"
+              id="description"
+              name="description"
+              required
+            ></textarea>
+          </div>
+          <div class="form-group">
+            <label for="price">Price</label>
+            <input
+              type="number"
+              class="form-control"
+              id="price"
+              name="price"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="quantity">Quantity</label>
+            <input
+              type="number"
+              class="form-control"
+              id="quantity"
+              name="quantity"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="category_id">Category</label>
+            <select
+              class="form-control"
+              id="category_id"
+              name="category_id"
+              required
+            >
+              <% categories.forEach(category => { %>
+              <option value="<%= category.id %>"><%= category.name %></option>
+              <% }) %>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="brand_id">Brand</label>
+            <select class="form-control" id="brand_id" name="brand_id" required>
+              <% brands.forEach(brand => { %>
+              <option value="<%= brand.id %>"><%= brand.name %></option>
+              <% }) %>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-primary">Add Product</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Product Modal -->
+<div
+  class="modal fade"
+  id="editProductModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="editProductModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editProductModalLabel">Edit Product</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="edit-product-form">
+          <input type="hidden" id="edit-product-id" name="id" />
+          <div class="form-group">
+            <label for="edit-name">Name</label>
+            <input
+              type="text"
+              class="form-control"
+              id="edit-name"
+              name="name"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="edit-description">Description</label>
+            <textarea
+              class="form-control"
+              id="edit-description"
+              name="description"
+              required
+            ></textarea>
+          </div>
+          <div class="form-group">
+            <label for="edit-price">Price</label>
+            <input
+              type="number"
+              class="form-control"
+              id="edit-price"
+              name="price"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="edit-quantity">Quantity</label>
+            <input
+              type="number"
+              class="form-control"
+              id="edit-quantity"
+              name="quantity"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="edit-category_id">Category</label>
+            <select
+              class="form-control"
+              id="edit-category_id"
+              name="category_id"
+              required
+            >
+              <% categories.forEach(category => { %>
+              <option value="<%= category.id %>"><%= category.name %></option>
+              <% }) %>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="edit-brand_id">Brand</label>
+            <select
+              class="form-control"
+              id="edit-brand_id"
+              name="brand_id"
+              required
+            >
+              <% brands.forEach(brand => { %>
+              <option value="<%= brand.id %>"><%= brand.name %></option>
+              <% }) %>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-primary">Save changes</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Embed initial products data in a hidden script tag -->
+<script id="initial-products" type="application/json">
+  <%- JSON.stringify(products) %>
+</script>
